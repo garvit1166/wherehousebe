@@ -1,5 +1,5 @@
 const fs = require('fs').promises;
-const path = require('path'); // Import the path module
+const path = require('path'); 
 const express = require('express');
 const { google } = require('googleapis');
 const { authenticate } = require('@google-cloud/local-auth');
@@ -10,7 +10,7 @@ const app = express();
 const port = 3001;
 app.use(express.json());
 app.use(cors());
-// If modifying these scopes, delete token.json.
+
 const SCOPES = ['https://www.googleapis.com/auth/spreadsheets'];
 const TOKEN_PATH = path.join(process.cwd(), 'token.json');
 const CREDENTIALS_PATH = path.join(process.cwd(), 'credentials.json');
@@ -89,7 +89,7 @@ async function listMajors(auth) {
         console.log('No data found.');
         return { error: 'No data found' };
     }
-    const data = rows.map(row => ({
+    const data = rows.splice(1).map(row => ({
         Id: row[0],
         Avatar_Name: row[1],
         Performance_Score: row[2]
@@ -135,9 +135,9 @@ async function writeData(auth,values) {
         ranges: [],
         
       });
-      // Extract the sheet properties    
+       
       const properties = response.data.sheets[0].properties;
-          // Get the last row of the sheet    
+ 
           const lastRow = properties.gridProperties.rowCount;
           console.log('Last row with data:', lastRow);
       
